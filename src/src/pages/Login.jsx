@@ -20,8 +20,8 @@ export default function Login() {
     if (!validateAamuEmail(email)) {
       return setError('Use your Alabama A&M email (example@bulldogs.aamu.edu).')
     }
-    const u = { email, name: email.split('@')[0] }
-    login(u)
+    // mock authentication success
+    login({ email })
     navigate('/rides')
   }
 
@@ -72,12 +72,9 @@ export default function Login() {
             <span>Don't have an account? </span>
             <button
               type="button"
-              onClick={() =>
-                alert(
-                  'Sign up flow: for the demo we require an email address with @bulldogs.aamu.edu'
-                )
-              }
-              className="text-maroon-700 font-medium"
+              onClick={() => navigate ('/signup')}
+              className= "text-maroo-700 font-medium"
+                
             >
               Sign Up
             </button>
@@ -87,3 +84,4 @@ export default function Login() {
     </div>
   )
 }
+
