@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Rides from './pages/Rides'
 import Trips from './pages/Trips'
+import SignUp from './pages/SignUp'
 import { AuthProvider, useAuth } from './utils/auth'
 
 // Protected route wrapper
@@ -19,6 +20,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/rides" replace />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/rides" element={<Protected><Rides /></Protected>} />
           <Route path="/trips" element={<Protected><Trips /></Protected>} />
         </Routes>
