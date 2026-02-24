@@ -10,6 +10,7 @@ export default function Nav({ className = '' }) {
       <div className="flex gap-4 items-center">
         <Link to="/rides" className="text-sm text-white/80 hover:text-white transition-colors">Rides</Link>
         <Link to="/trips" className="text-sm text-white/80 hover:text-white transition-colors">Trips</Link>
+        <Link to="/profile" className="text-sm text-white/80 hover:text-white transition-colors">Profile</Link>
       </div>
     </nav>
   )

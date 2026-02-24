@@ -4,6 +4,7 @@ import Login from './pages/Login.jsx'
 import Rides from './pages/Rides.jsx'
 import Trips from './pages/Trips.jsx'
 import SignUp from './pages/SignUp.jsx'
+import Profile from './pages/Profile.jsx'
 import { AuthProvider, useAuth } from './utils/auth'
 
 // Protected route wrapper
@@ -37,6 +38,14 @@ export default function App() {
               element={
                 <Protected>
                   <Trips />
+                </Protected>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <Protected>
+                  <Profile />
                 </Protected>
               }
             />
