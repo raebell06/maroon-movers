@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* simple safe container for mobile */
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
+}
+
+/* small utility for maroon buttons */
+.btn-maroon {
+  /* fallback from Tailwind @apply to avoid PostCSS @apply errors */
+  padding: 0.5rem 1rem; /* py-2 px-4 */
+  border-radius: 1rem; /* approximates rounded-2xl */
+  color: #ffffff; /* text-white */
+  font-weight: 600; /* font-semibold */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* shadow-sm */
+  background: linear-gradient(180deg, #800000, #660000);
+}
