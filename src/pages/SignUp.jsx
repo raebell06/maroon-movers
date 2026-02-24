@@ -29,71 +29,83 @@ export default function SignUp() {
       return setError("Passwords do not match.");
     }
 
-    // Mock successful sign-up → logs user in immediately
     const user = { email, name: fullName };
     login(user);
     navigate("/rides");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-md p-6">
-        <h1 className="text-2xl font-bold text-maroon-700 text-center">Create Account</h1>
+    <div className="flex items-center justify-center min-h-full bg-maroon-50 px-4 py-8">
+      <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-6">
+        <h1 className="text-2xl font-bold text-maroon-700 text-center">
+          Create Account
+        </h1>
         <p className="text-sm text-gray-600 text-center mb-4">
           Welcome to Maroon Moves!
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Full Name</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Full Name
+            </label>
             <input
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Jane Doe"
-              className="mt-1 block w-full rounded-lg border-gray-200 shadow-sm p-2"
+              className="mt-1 block w-full rounded-lg border border-gray-200 p-2 focus:outline-none focus:ring-2 focus:ring-maroon-600"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">AAMU Email</label>
+            <label className="block text-sm font-medium text-gray-700">
+              AAMU Email
+            </label>
             <input
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@bulldogs.aamu.edu"
-              className="mt-1 block w-full rounded-lg border-gray-200 shadow-sm p-2"
+              className="mt-1 block w-full rounded-lg border border-gray-200 p-2 focus:outline-none focus:ring-2 focus:ring-maroon-600"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="mt-1 block w-full rounded-lg border-gray-200 shadow-sm p-2"
+              className="mt-1 block w-full rounded-lg border border-gray-200 p-2 focus:outline-none focus:ring-2 focus:ring-maroon-600"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Confirm Password</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Confirm Password
+            </label>
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="••••••••"
-              className="mt-1 block w-full rounded-lg border-gray-200 shadow-sm p-2"
+              className="mt-1 block w-full rounded-lg border border-gray-200 p-2 focus:outline-none focus:ring-2 focus:ring-maroon-600"
             />
           </div>
 
           {error && <div className="text-sm text-red-600">{error}</div>}
 
-          <button type="submit" className="btn-maroon w-full">
+          <button
+            type="submit"
+            className="w-full py-3 rounded-xl bg-maroon-700 text-white font-semibold hover:bg-maroon-800 transition"
+          >
             Sign Up
           </button>
 
           <div className="text-center text-sm text-gray-500 pt-2">
-            <span>Already have an account? </span>
+            Already have an account?{" "}
             <button
               type="button"
               onClick={() => navigate("/login")}

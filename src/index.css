@@ -1,3 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  /* Replace these hex codes with your actual project colors */
+  --color-maroon-100: #fce7f3; 
+  --color-maroon-200: #fbcfe8;
+  --color-maroon-700: #800000;
+  --color-maroon-800: #600000;
+  
+  --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-soft: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +18,22 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #fdf2f2 0%, #f9e8eb 100%);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@utility btn-maroon {
+  @apply px-4 py-2 rounded-lg bg-maroon-700 text-white font-semibold hover:bg-maroon-800 transition-colors duration-200 shadow-soft;
+}
+
+@utility btn-secondary {
+  @apply px-4 py-2 rounded-lg bg-maroon-100 text-maroon-700 font-semibold hover:bg-maroon-200 transition-colors duration-200;
+}
+
+@utility card {
+  @apply rounded-2xl bg-white shadow-card border border-gray-100;
 }

@@ -13,14 +13,14 @@
   },
   "overrides": {
     "@svgr/webpack": "^8.0.1",
-    "@adobe/css-tools": "^4.3.1",
-    "postcss": "^8.4.31"
+    "@adobe/css-tools": "^4.3.1"
   },
   "scripts": {
     "start": "cross-env BROWSER=none WDS_SOCKET_PORT=0 vite --port 3000",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "build:css": "tailwindcss -i src/index.css -o out.css --config tailwind.config.cjs --minify"
   },
   "eslintConfig": {
     "extends": [
@@ -41,9 +41,13 @@
     ]
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.1",
     "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.4.24",
     "cross-env": "^10.1.0",
     "jsdom": "^26.1.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.2.1",
     "vite": "^6.3.6",
     "vitest": "^3.0.7"
   }
