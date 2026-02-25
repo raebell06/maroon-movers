@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../utils/auth'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const { login } = useAuth()
 
@@ -13,20 +16,51 @@ export default function Login() {
     return /^[A-Za-z0-9._%+-]+@bulldogs\.aamu\.edu$/i.test(em.trim())
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-    if (!email || !password) return setError('Please fill in both fields.')
-    if (!validateAamuEmail(email)) {
-      return setError('Use your Alabama A&M email (example@bulldogs.aamu.edu).')
+    setLoading(true)
+
+    if (!email || !password) {
+      setError('Please fill in both fields.')
+      setLoading(false)
+      return
     }
-    // mock authentication success
-    login({ email })
-    navigate('/rides')
+
+    if (!validateAamuEmail(email)) {
+      setError('Use your Alabama A&M email (example@bulldogs.aamu.edu).')
+      setLoading(false)
+      return
+    }
+
+    try {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        setError(data.error || 'Login failed')
+        setLoading(false)
+        return
+      }
+
+      // Save token and user
+      login(data.user, data.token)
+      navigate('/rides')
+    } catch (err) {
+      setError('Network error. Please try again.')
+      console.error(err)
+    }
+
+    setLoading(false)
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-maroon-50 to-maroon-100">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-linear-to-br from-maroon-50 to-maroon-100">
       <div className="max-w-sm w-full card p-8 space-y-6">
         <div className="text-center space-y-2">
           <div className="text-4xl mb-2">🚗</div>
@@ -58,13 +92,13 @@ export default function Login() {
 
           {error && <div className="text-sm text-red-500 bg-red-50 p-3 rounded-lg">{error}</div>}
 
-          <button type="submit" className="btn-maroon w-full py-3">
-            Log In
+          <button type="submit" className="btn-maroon w-full py-3" disabled={loading}>
+            {loading ? 'Logging in...' : 'Log In'}
           </button>
-          
+
           <button
             type="button"
-            onClick={() => alert('Password reset flow: stub')}
+            onClick={() => alert('Password reset flow: coming soon')}
             className="w-full text-sm text-maroon-600 hover:text-maroon-700 font-medium"
           >
             Forgot your password?

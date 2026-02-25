@@ -20,7 +20,7 @@ export default function App() {
       {/* Background */}
       <div className="min-h-screen flex justify-center bg-maroon-50 text-gray-900">
         {/* Mobile App Shell */}
-        <div className="w-full max-w-[390px] min-h-screen bg-white shadow-xl rounded-3xl overflow-hidden">
+        <div className="w-full max-w-97.5 min-h-screen bg-white shadow-xl rounded-3xl overflow-hidden">
           <Routes>
             <Route path="/" element={<Navigate to="/rides" replace />} />
             <Route path="/login" element={<Login />} />
