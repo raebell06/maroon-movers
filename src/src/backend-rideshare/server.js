@@ -5,6 +5,7 @@ import authRoutes from "./models/routes/auth.js"
 import profileRoutes from "./models/routes/profile.js"
 import ridesRoutes from "./models/routes/rides.js"
 import driverRoutes from "./models/routes/driver.js"
+import paymentRoutes from "./models/routes/payment.js"
 
 dotenv.config()
 const app = express()
@@ -17,6 +18,7 @@ app.use("/api/auth", authRoutes)
 app.use("/api/profile", profileRoutes)
 app.use("/api/rides", ridesRoutes)
 app.use("/api/driver", driverRoutes)
+app.use("/api/payments", paymentRoutes)
 
 // Health check
 app.get("/health", (req, res) => {
