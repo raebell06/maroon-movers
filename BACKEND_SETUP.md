@@ -12,51 +12,34 @@ The backend is an Express.js server with MySQL for data storage and JWT for auth
 
 ## Database Setup
 
-### 1. Create the database and tables
+### 1. Create the database
 
-```sql
-CREATE DATABASE IF NOT EXISTS maroon_movers;
-USE maroon_movers;
-
--- Users table
-CREATE TABLE users (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(255) NOT NULL,
-  email VARCHAR(255) UNIQUE NOT NULL,
-  password_hash VARCHAR(255) NOT NULL,
-  role ENUM('rider', 'driver') DEFAULT 'rider',
-  payment_method VARCHAR(255),
-  driver_status ENUM('available', 'unavailable') DEFAULT 'unavailable',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
--- Trips table
-CREATE TABLE trips (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  rider_id INT NOT NULL,
-  driver_id INT,
-  pickup VARCHAR(255) NOT NULL,
-  dropoff VARCHAR(255) NOT NULL,
-  price DECIMAL(10, 2) DEFAULT 0,
-  status ENUM('pending', 'accepted', 'in_progress', 'completed', 'cancelled') DEFAULT 'pending',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (rider_id) REFERENCES users(id),
-  FOREIGN KEY (driver_id) REFERENCES users(id)
-);
-
--- Payments table (optional)
-CREATE TABLE payments (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  trip_id INT NOT NULL,
-  amount DECIMAL(10, 2) NOT NULL,
-  status ENUM('pending', 'completed', 'failed') DEFAULT 'pending',
-  provider_id VARCHAR(255),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (trip_id) REFERENCES trips(id)
-);
+```bash
+mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS maroon_movers;"
 ```
+
+### 2. Setup and run migrations
+
+After installing dependencies (see Installation step 2), run:
+
+```bash
+npm run setup
+```
+
+This will automatically create all necessary tables from the migration files in the `migrations/` folder:
+
+- **users** - Stores all rider and driver accounts
+- **rides** - Stores all ride requests and driver-created rides
+- **trips** - Legacy table for backward compatibility
+- **payments** - Stores payment records
+
+The migrations will:
+
+- ✓ Create the `users` table with fields for rider/driver roles and vehicle info
+- ✓ Create the `rides` table with support for ride requests from riders and rides created by drivers
+- ✓ Create the `payments` table for payment tracking
+
+No manual SQL is required!
 
 ## Installation
 

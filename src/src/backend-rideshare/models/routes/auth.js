@@ -11,7 +11,7 @@ const router = express.Router()
 
 // Register endpoint
 router.post("/register", async (req, res) => {
-  const { firstname, lastname, password } = req.body
+  const { firstname, lastname, password, role } = req.body
 
   // Validate fields
   if (!firstname || !lastname || !password) {
@@ -20,6 +20,7 @@ router.post("/register", async (req, res) => {
 
   // AAMU email
   const email = `${firstname.toLowerCase()}.${lastname.toLowerCase()}@bulldogs.aamu.edu`
+  const userRole = role === 'driver' ? 'driver' : 'rider'
 
   try {
     // Check if user has created an account before
@@ -36,16 +37,16 @@ router.post("/register", async (req, res) => {
       `${firstname} ${lastname}`,
       email,
       hashedPassword,
-      "rider"
+      userRole
     ])
 
     // Generate JWT
-    const token = jwt.sign({ email, role: "rider" }, process.env.JWT_SECRET, { expiresIn: "24h" })
+    const token = jwt.sign({ email, role: userRole }, process.env.JWT_SECRET, { expiresIn: "24h" })
 
     res.json({
       message: `Account created successfully for ${email}`,
       token,
-      user: { email, name: `${firstname} ${lastname}`, role: "rider" }
+      user: { email, name: `${firstname} ${lastname}`, role: userRole }
     })
   } catch (err) {
     console.error(err)
@@ -55,7 +56,7 @@ router.post("/register", async (req, res) => {
 
 // Login endpoint
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body
+  const { email, password, role } = req.body
 
   // Validate fields
   if (!email || !password) {
@@ -70,6 +71,11 @@ router.post("/login", async (req, res) => {
     }
 
     const user = users[0]
+
+    // Check if user role matches requested role
+    if (role && user.role !== role) {
+      return res.status(401).json({ error: `User is not registered as a ${role}` })
+    }
 
     // Check password
     const isValidPassword = await bcrypt.compare(password, user.password_hash)

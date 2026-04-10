@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/auth";
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+
 export default function SignUp() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [userType, setUserType] = useState("rider");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -15,7 +19,7 @@ export default function SignUp() {
     return /^[A-Za-z0-9._%+-]+@bulldogs\.aamu\.edu$/i.test(em.trim());
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -29,9 +33,41 @@ export default function SignUp() {
       return setError("Passwords do not match.");
     }
 
-    const user = { email, name: fullName };
-    login(user);
-    navigate("/rides");
+    setLoading(true);
+
+    try {
+      // Extract first and last names
+      const [firstName, ...lastNameParts] = fullName.trim().split(" ");
+      const lastName = lastNameParts.join(" ") || "User";
+
+      const res = await fetch(`${API_URL}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstname: firstName,
+          lastname: lastName,
+          password,
+          role: userType
+        })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Signup failed");
+        setLoading(false);
+        return;
+      }
+
+      // Store user with role
+      login({ email: data.user.email, name: data.user.name, role: userType }, data.token);
+      navigate(userType === "driver" ? "/driver/rides" : "/rides");
+    } catch (err) {
+      setError("Network error. Please try again.");
+      console.error(err);
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -43,6 +79,32 @@ export default function SignUp() {
         <p className="text-sm text-gray-600 text-center mb-4">
           Welcome to Maroon Moves!
         </p>
+
+        {/* User Type Selection */}
+        <div className="flex gap-3 bg-gray-100 p-1 rounded-lg mb-4">
+          <button
+            type="button"
+            onClick={() => setUserType("rider")}
+            className={`flex-1 py-2 px-3 rounded-md font-semibold transition-all text-sm ${
+              userType === "rider"
+                ? "bg-maroon-600 text-white"
+                : "bg-transparent text-gray-600 hover:text-gray-800"
+            }`}
+          >
+            🧑 Rider
+          </button>
+          <button
+            type="button"
+            onClick={() => setUserType("driver")}
+            className={`flex-1 py-2 px-3 rounded-md font-semibold transition-all text-sm ${
+              userType === "driver"
+                ? "bg-maroon-600 text-white"
+                : "bg-transparent text-gray-600 hover:text-gray-800"
+            }`}
+          >
+            🚙 Driver
+          </button>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -95,13 +157,14 @@ export default function SignUp() {
             />
           </div>
 
-          {error && <div className="text-sm text-red-600">{error}</div>}
+          {error && <div className="text-sm text-red-600 bg-red-50 p-3 rounded-lg">{error}</div>}
 
           <button
             type="submit"
-            className="w-full py-3 rounded-xl bg-maroon-700 text-white font-semibold hover:bg-maroon-800 transition"
+            disabled={loading}
+            className="w-full py-3 rounded-xl bg-maroon-700 text-white font-semibold hover:bg-maroon-800 transition disabled:opacity-50"
           >
-            Sign Up
+            {loading ? "Creating Account..." : "Sign Up"}
           </button>
 
           <div className="text-center text-sm text-gray-500 pt-2">

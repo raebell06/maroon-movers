@@ -11,6 +11,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const [forgotLoading, setForgotLoading] = useState(false)
   const [forgotMessage, setForgotMessage] = useState('')
+  const [userType, setUserType] = useState('user') // 'user' or 'driver'
   const navigate = useNavigate()
   const { login } = useAuth()
 
@@ -39,7 +40,7 @@ export default function Login() {
       const res = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password, role: userType })
       })
 
       const data = await res.json()
@@ -106,6 +107,32 @@ export default function Login() {
           <div className="text-4xl mb-2">🚗</div>
           <h1 className="text-3xl font-bold text-maroon-700">Maroon Moves</h1>
           <p className="text-sm text-gray-500">Campus Carpool Service</p>
+        </div>
+
+        {/* User Type Selection */}
+        <div className="flex gap-3 bg-gray-100 p-1 rounded-lg">
+          <button
+            type="button"
+            onClick={() => setUserType('user')}
+            className={`flex-1 py-2 px-4 rounded-md font-semibold transition-all ${
+              userType === 'user'
+                ? 'bg-maroon-600 text-white'
+                : 'bg-transparent text-gray-600 hover:text-gray-800'
+            }`}
+          >
+            🧑 Rider
+          </button>
+          <button
+            type="button"
+            onClick={() => setUserType('driver')}
+            className={`flex-1 py-2 px-4 rounded-md font-semibold transition-all ${
+              userType === 'driver'
+                ? 'bg-maroon-600 text-white'
+                : 'bg-transparent text-gray-600 hover:text-gray-800'
+            }`}
+          >
+            🚙 Driver
+          </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
