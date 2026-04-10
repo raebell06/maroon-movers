@@ -9,6 +9,8 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [forgotLoading, setForgotLoading] = useState(false)
+  const [forgotMessage, setForgotMessage] = useState('')
   const navigate = useNavigate()
   const { login } = useAuth()
 
@@ -59,6 +61,44 @@ export default function Login() {
     setLoading(false)
   }
 
+  const handleForgotPassword = async () => {
+    setForgotMessage('')
+    setForgotLoading(true)
+
+    if (!email) {
+      setForgotMessage('Please enter your email address first.')
+      setForgotLoading(false)
+      return
+    }
+
+    if (!validateAamuEmail(email)) {
+      setForgotMessage('Use your Alabama A&M email (example@bulldogs.aamu.edu).')
+      setForgotLoading(false)
+      return
+    }
+
+    try {
+      const res = await fetch(`${API_URL}/api/auth/forgot-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      })
+
+      const data = await res.json()
+
+      if (res.ok) {
+        setForgotMessage('Password reset email sent! Check your inbox.')
+      } else {
+        setForgotMessage(data.error || 'Failed to send reset email.')
+      }
+    } catch (err) {
+      setForgotMessage('Network error. Please try again.')
+      console.error(err)
+    }
+
+    setForgotLoading(false)
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-linear-to-br from-maroon-50 to-maroon-100">
       <div className="max-w-sm w-full card p-8 space-y-6">
@@ -98,11 +138,14 @@ export default function Login() {
 
           <button
             type="button"
-            onClick={() => alert('Password reset flow: coming soon')}
+            onClick={handleForgotPassword}
             className="w-full text-sm text-maroon-600 hover:text-maroon-700 font-medium"
+            disabled={forgotLoading}
           >
-            Forgot your password?
+            {forgotLoading ? 'Sending...' : 'Forgot your password?'}
           </button>
+
+          {forgotMessage && <div className="text-sm text-blue-500 bg-blue-50 p-3 rounded-lg">{forgotMessage}</div>}
         </form>
 
         <div className="pt-4 border-t border-gray-200 text-center text-sm text-gray-600">
