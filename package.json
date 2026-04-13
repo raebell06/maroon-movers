@@ -4,11 +4,18 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@stripe/stripe-js": "^8.8.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
+    "next": "^16.1.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+<<<<<<< HEAD
+    "stripe": "^20.4.0",
+=======
+    "react-router-dom": "^7.13.1",
+>>>>>>> 742b985922c86c7ed7799474e5b90905c3203bba
     "web-vitals": "^3.1.0"
   },
   "overrides": {
