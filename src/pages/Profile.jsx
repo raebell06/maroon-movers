@@ -74,77 +74,85 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-maroon-700">
-      <Nav className="bg-maroon-700" />
+    <>
+      <Nav />
 
-      <div className="p-4">
-        <div className="bg-white rounded-2xl p-6 max-w-md mx-auto space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold text-maroon-700">Profile</h2>
-              <p className="text-sm text-gray-500">Manage your account details</p>
-            </div>
+      <div className="min-h-screen bg-linear-to-br from-maroon-50 to-maroon-100 pt-24 pb-12 px-4">
+        <div className="max-w-2xl mx-auto space-y-8">
+          <div className="text-center space-y-2">
+            <h1 className="text-4xl font-bold text-maroon-700">Profile</h1>
+            <p className="text-gray-600">Manage your account details and payment information.</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700">Name</label>
-              <input
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                className="w-full rounded-lg border border-gray-200 p-3 focus:outline-none focus:ring-2 focus:ring-maroon-300 transition-all"
-                placeholder="Your full name"
-              />
+          <form onSubmit={handleSubmit} className="card p-8 space-y-6">
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-maroon-700">Account Information</h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2 md:col-span-2">
+                  <label className="block text-sm font-semibold text-gray-700">Name</label>
+                  <input
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border border-gray-200 p-3 focus:outline-none focus:ring-2 focus:ring-maroon-300"
+                    placeholder="Your full name"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-gray-700">Email</label>
+                  <input
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    type="email"
+                    className="w-full rounded-lg border border-gray-200 p-3 focus:outline-none focus:ring-2 focus:ring-maroon-300"
+                    placeholder="you@bulldogs.aamu.edu"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-gray-700">Password</label>
+                  <input
+                    name="password"
+                    value={form.password}
+                    onChange={handleChange}
+                    type="password"
+                    className="w-full rounded-lg border border-gray-200 p-3 focus:outline-none focus:ring-2 focus:ring-maroon-300"
+                    placeholder="Leave blank to keep current"
+                  />
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-semibold text-gray-700">Email</label>
-              <input
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                type="email"
-                className="w-full rounded-lg border border-gray-200 p-3 focus:outline-none focus:ring-2 focus:ring-maroon-300 transition-all"
-                placeholder="you@bulldogs.aamu.edu"
-              />
-            </div>
+            <div className="space-y-4 pt-6 border-t border-gray-200">
+              <h2 className="text-xl font-bold text-maroon-700">Payment Information</h2>
 
-            <div>
-              <label className="block text-sm font-semibold text-gray-700">Password</label>
-              <input
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                type="password"
-                className="w-full rounded-lg border border-gray-200 p-3 focus:outline-none focus:ring-2 focus:ring-maroon-300 transition-all"
-                placeholder="Leave blank to keep current"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-gray-700">Payment Method</label>
-              <input
-                name="payment_method"
-                value={form.payment_method}
-                onChange={handleChange}
-                className="w-full rounded-lg border border-gray-200 p-3 focus:outline-none focus:ring-2 focus:ring-maroon-300 transition-all"
-                placeholder="Card ending 4242"
-              />
-              <p className="text-xs text-gray-500 mt-1">Store payment method info here (integrate Stripe for real payment).</p>
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Payment Method</label>
+                <input
+                  name="payment_method"
+                  value={form.payment_method}
+                  onChange={handleChange}
+                  className="w-full rounded-lg border border-gray-200 p-3 focus:outline-none focus:ring-2 focus:ring-maroon-300"
+                  placeholder="Card ending 4242"
+                />
+                <p className="text-xs text-gray-500">Store payment method info here until Stripe is wired in.</p>
+              </div>
             </div>
 
             {error && <div className="text-sm text-red-500 bg-red-50 p-3 rounded-lg">{error}</div>}
             {message && <div className="text-sm text-green-600 bg-green-50 p-3 rounded-lg">{message}</div>}
 
             <div className="pt-2">
-              <button type="submit" className="btn-maroon w-full py-3 rounded-xl" disabled={loading}>
-                {loading ? 'Saving...' : 'Save changes'}
+              <button type="submit" className="btn-maroon w-full py-3" disabled={loading}>
+                {loading ? 'Saving...' : 'Save Changes'}
               </button>
             </div>
           </form>
         </div>
       </div>
-    </div>
+    </>
   )
 }

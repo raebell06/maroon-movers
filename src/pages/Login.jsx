@@ -11,7 +11,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const [forgotLoading, setForgotLoading] = useState(false)
   const [forgotMessage, setForgotMessage] = useState('')
-  const [userType, setUserType] = useState('user') // 'user' or 'driver'
+  const [userType, setUserType] = useState('rider')
   const navigate = useNavigate()
   const { login } = useAuth()
 
@@ -53,7 +53,7 @@ export default function Login() {
 
       // Save token and user
       login(data.user, data.token)
-      navigate('/rides')
+      navigate(data.user.role === 'driver' ? '/driver/rides' : '/rides')
     } catch (err) {
       setError('Network error. Please try again.')
       console.error(err)
@@ -113,9 +113,9 @@ export default function Login() {
         <div className="flex gap-3 bg-gray-100 p-1 rounded-lg">
           <button
             type="button"
-            onClick={() => setUserType('user')}
+            onClick={() => setUserType('rider')}
             className={`flex-1 py-2 px-4 rounded-md font-semibold transition-all ${
-              userType === 'user'
+              userType === 'rider'
                 ? 'bg-maroon-600 text-white'
                 : 'bg-transparent text-gray-600 hover:text-gray-800'
             }`}

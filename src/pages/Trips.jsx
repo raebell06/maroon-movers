@@ -42,46 +42,59 @@ export default function Trips() {
   const totalTrips = trips.length
 
   return (
-    <div className="min-h-screen bg-maroon-700">
-      <Nav className="bg-maroon-700" />
-      <div className="p-4">
-        <div className="bg-white rounded-2xl p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="font-bold text-xl text-maroon-700">Trips — {user?.name}</h2>
-              <p className="text-sm text-gray-600">Total trips: {totalTrips} • Spent: ${totalSpent.toFixed(2)}</p>
+    <>
+      <Nav />
+      <div className="min-h-screen bg-linear-to-br from-maroon-50 to-maroon-100 pt-24 pb-12 px-4">
+        <div className="max-w-4xl mx-auto space-y-8">
+          <div className="text-center space-y-2">
+            <h1 className="text-4xl font-bold text-maroon-700">Your Trips</h1>
+            <p className="text-gray-600">Review ride history, search requests, and track your total spend.</p>
+          </div>
+
+          <div className="card p-8 space-y-6">
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+              <div>
+                <h2 className="text-2xl font-bold text-maroon-700">Trips for {user?.name}</h2>
+                <p className="text-sm text-gray-600">Total trips: {totalTrips} • Spent: ${totalSpent.toFixed(2)}</p>
+              </div>
+              <Link to="/rides" className="btn-secondary text-center">
+                Back to Rides
+              </Link>
             </div>
-            <Link to="/rides" className="text-sm text-maroon-700">Back</Link>
-          </div>
 
-          <div className="mt-4">
-            <input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Search your trips"
-              className="w-full rounded-lg border p-2"
-            />
-          </div>
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">Search Trips</label>
+              <input
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="Search by pickup or dropoff"
+                className="w-full rounded-lg border border-gray-200 p-3 focus:outline-none focus:ring-2 focus:ring-maroon-300"
+              />
+            </div>
 
-          <ul className="mt-4 space-y-3">
             {filtered.length === 0 ? (
-              <li className="text-sm text-gray-500">{loading ? 'Loading...' : 'No trips found.'}</li>
+              <p className="text-gray-500 text-center py-8">{loading ? 'Loading...' : 'No trips found.'}</p>
             ) : (
-              filtered.map(t => (
-                <li key={t.id} className="p-3 rounded-lg border">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <div className="font-semibold">{t.pickup} → {t.dropoff}</div>
-                      <div className="text-xs text-gray-500">{new Date(t.created_at).toLocaleDateString()} • {t.status}</div>
+              <div className="space-y-4">
+                {filtered.map((t) => (
+                  <div key={t.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      <div>
+                        <h3 className="font-semibold text-gray-800">{t.pickup} → {t.dropoff}</h3>
+                        <p className="text-sm text-gray-500 mt-1">{new Date(t.created_at).toLocaleDateString()} • {t.status}</p>
+                      </div>
+                      <div className="text-left sm:text-right">
+                        <p className="text-sm text-gray-500">Fare</p>
+                        <p className="font-semibold text-maroon-600">${t.price.toFixed(2)}</p>
+                      </div>
                     </div>
-                    <div className="text-sm font-medium">${t.price.toFixed(2)}</div>
                   </div>
-                </li>
-              ))
+                ))}
+              </div>
             )}
-          </ul>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

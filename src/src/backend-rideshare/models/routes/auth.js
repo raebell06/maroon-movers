@@ -11,20 +11,23 @@ const router = express.Router()
 
 // Register endpoint
 router.post("/register", async (req, res) => {
-  const { firstname, lastname, password, role } = req.body
+  const { firstname, lastname, email, password, role } = req.body
 
   // Validate fields
-  if (!firstname || !lastname || !password) {
+  if (!firstname || !lastname || !email || !password) {
     return res.status(400).json({ error: "Please fill in all fields." })
   }
 
-  // AAMU email
-  const email = `${firstname.toLowerCase()}.${lastname.toLowerCase()}@bulldogs.aamu.edu`
+  const normalizedEmail = email.trim().toLowerCase()
+  if (!/^[a-z0-9._%+-]+@bulldogs\.aamu\.edu$/.test(normalizedEmail)) {
+    return res.status(400).json({ error: "Use your Alabama A&M email." })
+  }
+
   const userRole = role === 'driver' ? 'driver' : 'rider'
 
   try {
     // Check if user has created an account before
-    const [existingUser] = await db.query("SELECT * FROM users WHERE email = ?", [email])
+    const [existingUser] = await db.query("SELECT * FROM users WHERE email = ?", [normalizedEmail])
     if (existingUser.length > 0) {
       return res.status(400).json({ error: "User already exists." })
     }
@@ -33,20 +36,20 @@ router.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10)
 
     // Insert new user
-    await db.query("INSERT INTO users (name, email, password_hash, role, created_at) VALUES (?, ?, ?, ?, NOW())", [
+    const [result] = await db.query("INSERT INTO users (name, email, password_hash, role, created_at) VALUES (?, ?, ?, ?, NOW())", [
       `${firstname} ${lastname}`,
-      email,
+      normalizedEmail,
       hashedPassword,
       userRole
     ])
 
     // Generate JWT
-    const token = jwt.sign({ email, role: userRole }, process.env.JWT_SECRET, { expiresIn: "24h" })
+    const token = jwt.sign({ id: result.insertId, email: normalizedEmail, role: userRole }, process.env.JWT_SECRET, { expiresIn: "24h" })
 
     res.json({
-      message: `Account created successfully for ${email}`,
+      message: `Account created successfully for ${normalizedEmail}`,
       token,
-      user: { email, name: `${firstname} ${lastname}`, role: userRole }
+      user: { id: result.insertId, email: normalizedEmail, name: `${firstname} ${lastname}`, role: userRole }
     })
   } catch (err) {
     console.error(err)
