@@ -13,26 +13,27 @@ export default function Nav({ className = '' }) {
   }
 
   return (
-    <nav className={`w-full px-4 py-3 flex items-center justify-between border-b border-white/10 ${className}`}>
-      <Link to={isDriver ? '/driver/rides' : '/rides'} className="text-white font-bold text-xl tracking-tight">
+    <nav className={`w-full px-4 py-3 flex items-center justify-between border-b border-maroon-100 bg-white/90 backdrop-blur-sm ${className}`}>
+      <Link to={isDriver ? '/driver/rides' : '/rides'} className="text-maroon-700 font-bold text-xl tracking-tight">
         🚗 Maroon Moves
       </Link>
       <div className="flex gap-4 items-center">
         {isDriver ? (
           <>
-            <Link to="/driver/rides" className="text-sm text-white/80 hover:text-white transition-colors">Rides</Link>
-            <Link to="/driver/profile" className="text-sm text-white/80 hover:text-white transition-colors">Profile</Link>
+            <Link to="/driver/rides" className="text-sm text-maroon-700 hover:text-maroon-800 transition-colors">Rides</Link>
+            <Link to="/driver/requests" className="text-sm text-maroon-700 hover:text-maroon-800 transition-colors">Request</Link>
+            <Link to="/driver/profile" className="text-sm text-maroon-700 hover:text-maroon-800 transition-colors">Profile</Link>
           </>
         ) : (
           <>
-            <Link to="/rides" className="text-sm text-white/80 hover:text-white transition-colors">Rides</Link>
-            <Link to="/trips" className="text-sm text-white/80 hover:text-white transition-colors">Trips</Link>
-            <Link to="/profile" className="text-sm text-white/80 hover:text-white transition-colors">Profile</Link>
+            <Link to="/rides" className="text-sm text-maroon-700 hover:text-maroon-800 transition-colors">Rides</Link>
+            <Link to="/trips" className="text-sm text-maroon-700 hover:text-maroon-800 transition-colors">Trips</Link>
+            <Link to="/profile" className="text-sm text-maroon-700 hover:text-maroon-800 transition-colors">Profile</Link>
           </>
         )}
         <button
           onClick={handleLogout}
-          className="text-sm text-white/80 hover:text-white transition-colors font-semibold"
+          className="text-sm text-maroon-700 hover:text-maroon-800 transition-colors font-semibold"
         >
           Logout
         </button>

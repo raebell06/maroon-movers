@@ -7,6 +7,7 @@ import SignUp from './pages/SignUp.jsx'
 import Profile from './pages/Profile.jsx'
 import DriverRides from './pages/DriverRides.jsx'
 import DriverProfile from './pages/DriverProfile.jsx'
+import DriverRequests from './pages/DriverRequests.jsx'
 import { AuthProvider, useAuth } from './utils/auth'
 
 // Protected route wrapper
@@ -63,6 +64,14 @@ function AppRoutes() {
         element={
           <Protected>
             <DriverProfile />
+          </Protected>
+        }
+      />
+      <Route
+        path="/driver/requests"
+        element={
+          <Protected>
+            <DriverRequests />
           </Protected>
         }
       />
