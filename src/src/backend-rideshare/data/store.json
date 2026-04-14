@@ -1,0 +1,64 @@
+{
+  "counters": {
+    "users": 4,
+    "trips": 1,
+    "rides": 1,
+    "payments": 1
+  },
+  "users": [
+    {
+      "id": 1,
+      "name": "Rae Bell",
+      "email": "rae.bell@bulldogs.aamu.edu",
+      "password_hash": "$2b$10$pMXEIN.mdunRtINQrzaSReEJDM5OrQU2WSJn.neZnvkmy.mD1666C",
+      "role": "rider",
+      "payment_method": null,
+      "driver_status": "unavailable",
+      "phone_number": null,
+      "car_make": null,
+      "car_model": null,
+      "car_year": null,
+      "license_plate": null,
+      "bank_account": null,
+      "created_at": "2026-04-14T00:41:00.420Z",
+      "updated_at": "2026-04-14T00:41:00.420Z"
+    },
+    {
+      "id": 2,
+      "name": "Test User",
+      "email": "test.user@bulldogs.aamu.edu",
+      "password_hash": "$2b$10$ZssECTpBkNzY82HTbur5IemE6oVgSMkVg.vqgL.W2GNPiEMZVo0Ea",
+      "role": "rider",
+      "payment_method": null,
+      "driver_status": "unavailable",
+      "phone_number": null,
+      "car_make": null,
+      "car_model": null,
+      "car_year": null,
+      "license_plate": null,
+      "bank_account": null,
+      "created_at": "2026-04-14T00:41:52.901Z",
+      "updated_at": "2026-04-14T00:41:52.913Z"
+    },
+    {
+      "id": 3,
+      "name": "Test Rider",
+      "email": "test.rider@bulldogs.aamu.edu",
+      "password_hash": "$2b$10$IMFfdmK0fbhXD6b76BAFG.qDTFKvBq9J14KTWcFCBxz6y//Y.0y2m",
+      "role": "rider",
+      "payment_method": null,
+      "driver_status": "unavailable",
+      "phone_number": null,
+      "car_make": null,
+      "car_model": null,
+      "car_year": null,
+      "license_plate": null,
+      "bank_account": null,
+      "created_at": "2026-04-14T03:41:49.652Z",
+      "updated_at": "2026-04-14T03:41:49.652Z"
+    }
+  ],
+  "trips": [],
+  "rides": [],
+  "payments": []
+}

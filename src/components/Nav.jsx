@@ -25,9 +25,9 @@ export default function Nav({ className = '' }) {
           </>
         ) : (
           <>
-            <Link to="/rides" className="text-sm text-white/80 hover:text-white transition-colors">Rides</Link>
-            <Link to="/trips" className="text-sm text-white/80 hover:text-white transition-colors">Trips</Link>
-            <Link to="/profile" className="text-sm text-white/80 hover:text-white transition-colors">Profile</Link>
+            <Link to="/rides" className="text-sm text-maroon-700 hover:text-white transition-colors">Rides</Link>
+            <Link to="/trips" className="text-sm text-maroon-700 hover:text-white transition-colors">Trips</Link>
+            <Link to="/profile" className="text-sm text-maroon-700 hover:text-white transition-colors">Profile</Link>
           </>
         )}
         <button
